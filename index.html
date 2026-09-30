@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Responsive Grid Preview</title>
+<style>
+:root{--bg:#f6f7f9;--fg:#1d2433;--muted:#5b6577;--line:#d5dbe5;--accent:#1d2433;--chip:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#15181e;--fg:#e8ebf0;--muted:#9aa3b2;--line:#2c323c;--accent:#e8ebf0;--chip:#1e232b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-bottom:1px solid var(--line)}
+h1{font-size:16px;margin:0 12px 0 0}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--chip);color:var(--fg);cursor:pointer}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+label{display:flex;align-items:center;gap:8px;color:var(--muted)}
+input[type=range]{width:220px}
+.wrap{padding:16px;overflow:auto}
+.frame{margin:0 auto;background:#fff;outline:1px solid var(--line);border-radius:8px;overflow:hidden;transform-origin:top left}
+iframe{display:block;border:0;width:100%;height:100%}
+.note{color:var(--muted);font-size:12px;padding:0 16px 16px}
+</style></head><body>
+<header>
+  <h1>NS 12 / 8 / 4 grid</h1>
+  <div class="btns">
+    <button data-w="375">Small 375</button>
+    <button data-w="768">Medium 768</button>
+    <button data-w="1440">Large 1440</button>
+  </div>
+  <label>Width <input id="w" type="range" min="320" max="1920" step="1"><output id="wo"></output></label>
+</header>
+<div class="wrap" id="wrap"><div class="frame" id="frame"><iframe id="f" title="Grid preview" src="demo.html"></iframe></div></div>
+<p class="note">The preview is an iframe set to the chosen width, so the real media queries fire. It's scaled down to fit when wider than this panel. Pink bands are the columns; padding and gap come from the layout tokens.</p>
+<script>
+const f = document.getElementById('f'), frame = document.getElementById('frame'), wrap = document.getElementById('wrap');
+const r = document.getElementById('w'), o = document.getElementById('wo');
+function set(w){
+  w = +w; r.value = w; o.textContent = w + 'px';
+  const avail = wrap.clientWidth - 32, s = Math.min(1, avail / w);
+  frame.style.width = w + 'px';
+  const doc = f.contentDocument, h = doc && doc.body ? Math.max(400, Math.ceil(doc.body.getBoundingClientRect().height)) : 1100;
+  frame.style.width = w + 'px'; frame.style.height = h + 'px';
+  frame.style.transform = `scale(${s})`;
+  frame.style.marginBottom = (h * s - h) + 'px';
+  frame.style.marginLeft = s < 1 ? '0' : 'auto';
+  document.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.w === w));
+}
+document.querySelectorAll('button').forEach(b => b.onclick = () => { set(b.dataset.w); requestAnimationFrame(() => set(b.dataset.w)); });
+r.oninput = () => { set(r.value); requestAnimationFrame(() => set(r.value)); };
+addEventListener('resize', () => set(r.value));
+f.addEventListener('load', () => requestAnimationFrame(() => set(r.value)));
+set(1440);
+</script>
+</body></html>

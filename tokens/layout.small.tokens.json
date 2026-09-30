@@ -1,0 +1,21 @@
+{
+  "$description": "4. Layout \u2014 Responsive, Small mode",
+  "grid": {
+    "columns": {
+      "$type": "number",
+      "$value": "{grid.columns.4}"
+    }
+  },
+  "layout": {
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.16}"
+    },
+    "padding": {
+      "horizontal": {
+        "$type": "dimension",
+        "$value": "{space.24}"
+      }
+    }
+  }
+}

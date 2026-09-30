@@ -1,0 +1,21 @@
+{
+  "$description": "4. Layout \u2014 Responsive, Large mode",
+  "grid": {
+    "columns": {
+      "$type": "number",
+      "$value": "{grid.columns.12}"
+    }
+  },
+  "layout": {
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.32}"
+    },
+    "padding": {
+      "horizontal": {
+        "$type": "dimension",
+        "$value": "{space.136}"
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grid demo</title>
+<link rel="stylesheet" href="src/grid.css">
+<style>
+/* ---- demo styling (not part of the system) ---- */
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;color:#1d2433;background:#fff}
+.stage{position:relative;padding-block:24px}
+.overlay{position:absolute;inset:0;pointer-events:none}
+.overlay > i{background:rgba(255,64,96,.08);border-inline:1px dashed rgba(255,64,96,.35);grid-row:1;grid-column:auto / span 1}
+.content{position:relative;row-gap:var(--nsds-layout-gap)}
+.card{background:#f3f5f9;border:1px solid #d5dbe5;border-radius:8px;padding:14px 16px;min-height:72px}
+.card b{display:block;font-size:14px;margin-bottom:4px}
+.card span{font-size:12px;color:#5b6577}
+.nested{margin-top:10px;row-gap:8px}
+.nested > div{background:#fff;border:1px dashed #9aa6b8;border-radius:6px;padding:8px;font-size:12px;text-align:center}
+.bp{position:sticky;top:0;z-index:2;background:#1d2433;color:#fff;font-size:12px;padding:6px 12px;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="bp"><span id="bpName"></span><span id="bpWidth"></span></div>
+<div class="stage">
+  <div class="grid overlay" id="overlay"></div>
+  <div class="grid content">
+    <article class="card" data-span="12"><b>Hero</b><span>12 / 8 / 4</span></article>
+    <article class="card" data-span="6" data-span-small="4"><b>Half</b><span>6 / 4 / 4</span></article>
+    <article class="card" data-span="6" data-span-small="4"><b>Half</b><span>6 / 4 / 4</span></article>
+    <article class="card" data-span="4" data-span-medium="6" data-align-medium="center" data-span-small="4"><b>Third</b><span>Large 4 · Medium 6 centred (cols 2–7) · Small 4</span></article>
+    <article class="card" data-span="4" data-span-medium="6" data-align-medium="center" data-span-small="4"><b>Third</b><span>Large 4 · Medium 6 centred (cols 2–7) · Small 4</span></article>
+    <article class="card" data-span="4" data-span-medium="6" data-align-medium="center" data-span-small="4"><b>Third</b><span>Large 4 · Medium 6 centred (cols 2–7) · Small 4</span></article>
+    <article class="card" data-span="3" data-span-medium="2" data-span-small="2"><b>Quarter</b><span>3 / 2 / 2</span></article>
+    <article class="card" data-span="3" data-span-medium="2" data-span-small="2"><b>Quarter</b><span>3 / 2 / 2</span></article>
+    <article class="card" data-span="3" data-span-medium="2" data-span-small="2"><b>Quarter</b><span>3 / 2 / 2</span></article>
+    <article class="card" data-span="3" data-span-medium="2" data-span-small="2"><b>Quarter</b><span>3 / 2 / 2</span></article>
+    <article class="card" data-span="8" data-span-medium="8" data-span-small="4"><b>Card with nested grid</b><span>8 / 8 / 4, inner grid 3 / 3 / 1 columns</span>
+      <div class="grid nested" data-columns="3" data-columns-small="1"><div>1</div><div>2</div><div>3</div></div>
+    </article>
+    <article class="card" data-span="4" data-span-medium="8" data-span-small="4"><b>Aside</b><span>4 / 8 / 4</span></article>
+  </div>
+</div>
+<script type="module">
+import { initGrid, watchBreakpoint } from './src/grid.js';
+initGrid();
+const overlay = document.getElementById('overlay');
+const root = getComputedStyle(document.documentElement);
+watchBreakpoint((bp) => {
+  overlay.innerHTML = '<i></i>'.repeat(bp.columns);
+  const s = getComputedStyle(document.documentElement);
+  document.getElementById('bpName').textContent =
+    `${bp.name[0].toUpperCase() + bp.name.slice(1)} · ${bp.columns} columns · gap ${s.getPropertyValue('--nsds-layout-gap').trim()} · padding ${s.getPropertyValue('--nsds-layout-padding-horizontal').trim()}`;
+});
+const w = () => (document.getElementById('bpWidth').textContent = innerWidth + 'px');
+addEventListener('resize', w); w();
+</script>
+</body>
+</html>

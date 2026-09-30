@@ -1,0 +1,42 @@
+/* 4. Layout — Responsive: Small is the base, Medium and Large are queries */
+:root {
+  --nsds-grid-columns: 4;
+  --nsds-layout-gap: 16px;
+  --nsds-layout-padding-horizontal: 24px;
+}
+@media (min-width: 768px) {
+  :root { --nsds-grid-columns: 8;  --nsds-layout-gap: 24px; --nsds-layout-padding-horizontal: 32px; }
+}
+@media (min-width: 1024px) {
+  :root { --nsds-grid-columns: 12; --nsds-layout-gap: 32px; --nsds-layout-padding-horizontal: 136px; }
+}
+
+.grid {
+  --cols: var(--nsds-grid-columns);
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--nsds-layout-gap);
+  padding-inline: var(--nsds-layout-padding-horizontal);
+  /* stop a parent's span values leaking into nested children */
+  --span-small: initial; --span-medium: initial; --span-large: initial;
+  --start-small: initial; --start-medium: initial; --start-large: initial;
+}
+.grid > * { --cols-small: initial; --cols-medium: initial; --cols-large: initial; }
+.grid .grid { padding-inline: 0; }
+
+/* nested grids with their own column count */
+.grid[data-columns] { --cols: var(--cols-small, var(--cols-medium, var(--cols-large))); }
+@media (min-width: 768px)  { .grid[data-columns] { --cols: var(--cols-medium, var(--cols-large, var(--cols-small))); } }
+@media (min-width: 1024px) { .grid[data-columns] { --cols: var(--cols-large, var(--cols-medium, var(--cols-small))); } }
+
+/* spans: unset = full width; start: unset = auto-placed */
+.grid > * { grid-column: var(--start-small, auto) / span var(--span-small, var(--cols)); }
+@media (min-width: 768px) {
+  .grid > * { grid-column: var(--start-medium, auto) / span var(--span-medium, var(--span-small, var(--cols))); }
+}
+@media (min-width: 1024px) {
+  .grid > * { grid-column: var(--start-large, auto) / span var(--span-large, var(--span-medium, var(--span-small, var(--cols)))); }
+}
+
+/* children of a nested grid with no span flow one per column */
+.grid[data-columns] > :not([data-span]) { grid-column: auto; }

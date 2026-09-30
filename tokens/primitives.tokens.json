@@ -1,0 +1,48 @@
+{
+  "grid": {
+    "columns": {
+      "4": {
+        "$type": "number",
+        "$value": 4
+      },
+      "8": {
+        "$type": "number",
+        "$value": 8
+      },
+      "12": {
+        "$type": "number",
+        "$value": 12
+      }
+    }
+  },
+  "space": {
+    "16": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "32": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    },
+    "136": {
+      "$type": "dimension",
+      "$value": {
+        "value": 136,
+        "unit": "px"
+      }
+    }
+  }
+}
