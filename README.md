@@ -2,7 +2,7 @@
 
 A token-driven CSS Grid for the NetSuite `4. Layout — Responsive` collection, with a small vanilla JS helper and an interactive preview.
 
-**Preview:** open `index.html` (or the GitHub Pages URL if enabled). Pick Small / Medium / Large or drag the width slider; the pink bands are the columns.
+**Live preview:** https://rachelramsay.github.io/responsive-grid-12-8-4/ (or serve the folder locally, e.g. `python3 -m http.server`). Pick Small / Medium / Large or drag the width slider; the pink bands are the columns.
 
 ## Breakpoints and tokens
 
